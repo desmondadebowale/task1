@@ -68,8 +68,7 @@ if ($display == 'html') {
         flush();
         sleep(1);
         echo '<p>"HNGID": '.$row['HNGID'].',  "Comment": '. $row['Comment'].',  "Status":'.$row['result'].'</p>';
-        
-
+    
     }
 } elseif ($display == 'json') {
     $json = json_encode($data, TRUE);

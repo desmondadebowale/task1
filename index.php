@@ -1,6 +1,6 @@
 <?php
 
-function runScripts($path, &$data)
+function runScripts($path,$hngid, &$data)
 {
     $fileType = pathinfo($path, PATHINFO_EXTENSION);
 
@@ -28,8 +28,9 @@ function runScripts($path, &$data)
     if ($return_val == 0) {
         $result = testOutput($output);
         $temp = [
-            'command' => $command,
-            'result' => $result
+            'HNGID' => strtoupper($hngid),
+            'Comment' => $output[0],
+            'result' => $result,
         ];
         $data[] = $temp;
     }
@@ -51,7 +52,9 @@ $scripts = scandir('./scripts');
 
 foreach ($scripts as $script) {
     if (! in_array($script, ['.', '..'])) {
-        runScripts('./scripts/' . $script, $data);
+       $hngid= pathinfo($script, PATHINFO_FILENAME); 
+
+        runScripts('./scripts/' . $script, $hngid, $data);
     }
 }
 
@@ -61,10 +64,11 @@ $display = $display == 'json' ? 'json' : 'html';
 if ($display == 'html') {
     echo '<h1>Task1</h1>';
     foreach ($data as $row) {
-        echo '<p>"' . $row['command'] . '": ' . $row['result'] . '</p>';
+        echo '<p>"HNGID": '.$row['HNGID'].',  "Comment": '. $row['Comment'].',  "Status":'.$row['result'].'</p>';
+
     }
 } elseif ($display == 'json') {
-    $json = json_encode($data);
+    $json = json_encode($data, TRUE);
     header('Content-Type: application/json');
     echo $json;
 }

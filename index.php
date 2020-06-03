@@ -64,10 +64,11 @@ $display = $display == 'json' ? 'json' : 'html';
 if ($display == 'html') {
     echo '<h1>Task1</h1>';
     foreach ($data as $row) {
-        echo '<p>"HNGID": '.$row['HNGID'].',  "Comment": '. $row['Comment'].',  "Status":'.$row['result'].'</p>';
         ob_flush();
         flush();
         sleep(1);
+        echo '<p>"HNGID": '.$row['HNGID'].',  "Comment": '. $row['Comment'].',  "Status":'.$row['result'].'</p>';
+        
 
     }
 } elseif ($display == 'json') {
